@@ -2,6 +2,6 @@ import React from 'react'
 
 export default function dashboard() {
   return (
-    <div>dashboard</div>
+    <div className='text-emerald-200'>dashboard</div>
   )
 }
