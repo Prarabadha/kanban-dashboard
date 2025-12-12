@@ -19,11 +19,18 @@ export default function DashboardSummary({ totalTasks, completed, pending }) {
             })}
           </p>
         </div>
+        <div className="flex gap-3">
         <Link to='/kanbanboard'>
         <div className="bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 rounded-full text-sm font-semibold">
           Go To Board
         </div>
         </Link>
+        <Link to='/'>
+        <div className="bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 rounded-full text-sm font-semibold">
+          Logout
+        </div>
+        </Link>
+        </div>
       </div>
 
       {/* Stats */}

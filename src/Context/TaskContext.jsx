@@ -3,10 +3,13 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 const TaskContext = createContext();
 
 export const TaskProvider = ({children})=>{
+ const[showTrash,setShowTrash] = useState(false);
+ 
  const[tasks,setTasks] = useState(() => {
     const saved = localStorage.getItem("tasks");
     return saved ? JSON.parse(saved) : [];
   });
+
 
  useEffect(()=>{
    localStorage.setItem('tasks',JSON.stringify(tasks))
@@ -16,8 +19,8 @@ export const TaskProvider = ({children})=>{
   setTasks([...tasks , task])
  }
 
- const updateTask=(updated)=>{
-    const newItem = tasks.map((item)=> item.name === updated.name ? updated : item);
+ const updateTask=(oldName,updatedNew)=>{
+    const newItem = tasks.map((item)=> item.name === oldName ? {...item , ...updatedNew} : item )
     setTasks(newItem)
  }
 
@@ -35,7 +38,7 @@ export const TaskProvider = ({children})=>{
 
 
  return (
-    <TaskContext.Provider value={{ tasks, addTask, updateTask, deleteTask, moveStage }}>
+    <TaskContext.Provider value={{ tasks, addTask, updateTask, deleteTask, moveStage , showTrash, setShowTrash}}>
       {children}
     </TaskContext.Provider>
  )
