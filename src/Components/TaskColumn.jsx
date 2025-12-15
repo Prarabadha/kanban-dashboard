@@ -30,7 +30,7 @@ export default function TaskColumn({stage , tasks ,stageIndex}) {
       onDrop={handleDrop}
       onDragEnter={handleDragEnter}
    >
-      <h3 className={`flex justify-center items-center text-lg text-white font-semibold mb-3 ${stage === 'Done' ? 'bg-gray-400' : stage === 'Ongoing' ? 'bg-blue-900' : stage === 'Backlog' ? 'bg-red-300' : 'bg-purple-300'} h-[50px] rounded-tl-lg rounded-tr-lg`}>
+      <h3 className={`flex justify-center items-center text-lg text-white font-semibold mb-3 ${stage === 'Done' ? 'bg-green-500' : stage === 'Ongoing' ? 'bg-blue-900' : stage === 'Backlog' ? 'bg-red-300' : 'bg-purple-300'} h-[50px] rounded-tl-lg rounded-tr-lg`}>
         {stage}
       </h3>
       <div className="flex flex-col gap-3 p-4">

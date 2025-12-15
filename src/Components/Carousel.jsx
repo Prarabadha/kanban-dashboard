@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 const slides = [
   "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
-  // "https://images.unsplash.com/photo-1506784242126-2a0b0b89a3c3",
   "https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1494172961521-33799ddd43a5",
 ];

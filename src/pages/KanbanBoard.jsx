@@ -20,7 +20,7 @@ export default function KanbanBoard() {
 
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-blue-200 via-white to-blue-100">
+    <div className="flex flex-col items-center min-h-screen bg-linear-to-br from-blue-200 via-white to-blue-100">
    
       <Modal isOpen={isOpen} onClose={()=>setIsOpen(false)}>
         <TaskForm onClose={()=> setIsOpen(false)}/>
@@ -82,7 +82,7 @@ export default function KanbanBoard() {
 
       {/* Delete Confirmation Modal */}
       <Modal isOpen={deleteConfirmation.isOpen} onClose={() => setDeleteConfirmation({isOpen:false,taskName:null})}>
-        <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+        <div className="bg-white p-6 rounded-lg shadow-lg w-[500px] ">
           <h2 className="text-xl font-bold text-gray-800 mb-4">Delete Task?</h2>
           <p className="text-gray-600 mb-6">
             Are you sure you want to delete "<strong>{deleteConfirmation.taskName}</strong>"? This action cannot be undone.
