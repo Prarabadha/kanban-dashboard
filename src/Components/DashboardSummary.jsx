@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   PieChart,
   Pie,
@@ -14,6 +14,8 @@ import {
 } from "recharts";
 
 export default function DashboardSummary({ totalTasks, completed, pending }) {
+  const navigate = useNavigate();
+
   // Prepare data for pie chart
   const pieData = [
     { name: "Completed", value: completed, color: "#10b981" },
@@ -26,6 +28,13 @@ export default function DashboardSummary({ totalTasks, completed, pending }) {
     { name: "Pending", value: pending, fill: "#f59e0b" },
     { name: "Completed", value: completed, fill: "#10b981" },
   ];
+
+  const handleLogout = () => {
+    // Clear all authentication data
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("user");
+    navigate("/");
+  };
 
   return (
     <div className="bg-gradient-to-br from-blue-200 via-white to-blue-100 p-8 text-white mx-auto shadow-2xl h-screen">
@@ -49,11 +58,12 @@ export default function DashboardSummary({ totalTasks, completed, pending }) {
               Go To Board
             </div>
           </Link>
-          <Link to="/">
-            <div className="bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 rounded-full text-sm font-semibold">
-              Logout
-            </div>
-          </Link>
+          <button
+            onClick={handleLogout}
+            className="bg-gradient-to-r from-red-500 to-red-600 px-4 py-2 rounded-full text-sm font-semibold hover:from-red-600 hover:to-red-700 transition-all"
+          >
+            Logout
+          </button>
         </div>
       </div>
 

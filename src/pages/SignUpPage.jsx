@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
+import { signUpApi } from "../mockApiAuth";
+import { toast } from "react-toastify";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ export default function SignUpPage() {
     },
   ]);
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -41,11 +43,14 @@ export default function SignUpPage() {
     const isValid = Object.values(error).every((err) => err === "");
 
     if (isValid) {
-      localStorage.setItem(
-        "userlogin",
-        JSON.stringify({ name, userName, email, password })
-      );
-      navigate("/");
+      const res = await signUpApi({ name, userName, email, password, contactNum });
+   
+      if(res.success){
+        toast.success("Sign Up Successful! Please Login.");
+        navigate("/");
+      } else {
+        toast.error(res.message);
+      }
     }
   };
 

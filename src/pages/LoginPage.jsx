@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { signInApi } from "../mockApiAuth";
+import { toast } from "react-toastify";
 import Carousel from "../Components/Carousel";
 
 export default function LoginPage() {
@@ -8,17 +10,24 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const newUser = JSON.parse(localStorage.getItem("userlogin"));
 
-    if (!newUser) return setError("User not found, please Sign Up first.");
+    if (!email || !password) {
+      setError("Please enter email and password");
+      return;
+    }
 
-    if (newUser.email === email && newUser.password === password) {
+    const res = await signInApi({ email, password });
+
+    if (res.success) {
       localStorage.setItem("isLoggedIn", true);
+      localStorage.setItem("user", JSON.stringify(res.user));
+      toast.success(res.message);
       navigate("/dashboard");
     } else {
-      setError("Invalid Credientials Please Sign up");
+      setError(res.message);
+      toast.error(res.message);
     }
   };
 
