@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
-import { signUpApi } from "../mockApiAuth";
-import { toast } from "react-toastify";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
@@ -57,7 +55,6 @@ export default function SignUpPage() {
           return;
         }
 
-        // Optionally store basic user info locally (without password)
         localStorage.setItem("user", JSON.stringify(data));
         // Redirect to login page so user can sign in
         navigate("/");

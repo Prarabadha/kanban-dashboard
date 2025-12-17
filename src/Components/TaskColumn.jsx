@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import TaskCard from './TaskCard'
-import { updateTask } from '../redux/taskActions'
+import { updateTask } from '../redux/taskSlice'
 
 export default function TaskColumn({stage , tasks ,stageIndex, onDeleteClick, onTrashShow}) {
 
@@ -20,7 +20,7 @@ export default function TaskColumn({stage , tasks ,stageIndex, onDeleteClick, on
       const userStr = localStorage.getItem('user')
       if (userStr) {
         const user = JSON.parse(userStr)
-        dispatch(updateTask(task.id, { stage: stageIndex }, user.id))
+        dispatch(updateTask({ taskId: task.id, updates: { stage: stageIndex }, userId: user.id }))
       }
     }
 

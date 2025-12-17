@@ -17,23 +17,27 @@
       "email": "demo@gmail.com",
       "password": "$2a$10$VzXNLhy4t6lih7wE.WDQmeh70c52uCC5hcY4AgACJlexbA3m1.miy",
       "name": "demo"
+    },
+    {
+      "id": 1765965806988,
+      "email": "ram@gmail.com",
+      "password": "$2a$10$2TjJp3ZMHUrCZSjEjrsQ0O51TG4dSiTvnbjqMV9/otbYOglVQ3Ct.",
+      "name": "Ram"
+    },
+    {
+      "id": 1765965869632,
+      "email": "job1@gmail.com",
+      "password": "$2a$10$Ec77/eY7El7.3pA7K0d1iOZu3JZWrtNSBPAyG362qJxp6aZau49xi",
+      "name": "job"
     }
   ],
   "tasks": [
-    {
-      "id": 1765954788972,
-      "name": "new task",
-      "priority": "low",
-      "deadline": "2025-12-19",
-      "stage": 1,
-      "userId": 1765950316422
-    },
     {
       "id": 1765954859979,
       "name": "new task kanban",
       "priority": "high",
       "deadline": "2025-12-18",
-      "stage": 3,
+      "stage": 2,
       "userId": 1765950128225
     },
     {
@@ -42,6 +46,22 @@
       "priority": "high",
       "deadline": "2025-12-06",
       "stage": 3,
+      "userId": 1765950316422
+    },
+    {
+      "id": 1765957745347,
+      "name": "names",
+      "priority": "high",
+      "deadline": "2025-12-18",
+      "stage": 3,
+      "userId": 1765950128225
+    },
+    {
+      "id": 1765964216600,
+      "name": "new name",
+      "priority": "high",
+      "deadline": "2025-12-18",
+      "stage": 2,
       "userId": 1765950316422
     }
   ]

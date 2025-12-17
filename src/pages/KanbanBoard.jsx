@@ -6,7 +6,7 @@ import Modal from "../Components/Modal";
 import { FaArrowLeft } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { fetchTasks, deleteTask } from "../redux/taskActions";
+import { fetchTasks, deleteTask } from "../redux/taskSlice";
 
 
 
@@ -32,7 +32,7 @@ export default function KanbanBoard() {
     const userStr = localStorage.getItem('user')
     if (userStr) {
       const user = JSON.parse(userStr)
-      dispatch(deleteTask(deleteConfirmation.taskId, user.id))
+      dispatch(deleteTask({ taskId: deleteConfirmation.taskId, userId: user.id }))
       setDeleteConfirmation({isOpen:false,taskId:null,taskName:null})
     }
   }

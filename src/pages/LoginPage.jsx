@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signInApi } from "../mockApiAuth";
-import { toast } from "react-toastify";
 import Carousel from "../Components/Carousel";
+import { IoIosRefresh } from "react-icons/io";
+
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -35,7 +35,6 @@ export default function LoginPage() {
         return;
       }
 
-      // Mark logged in and keep user info (without password)
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("user", JSON.stringify(data));
       navigate("/dashboard");
@@ -106,13 +105,10 @@ export default function LoginPage() {
                   <span className="font-semibold text-gray-600 select-none">
                     {captchaQuestion}
                   </span>
-                  <button
-                    type="button"
+                  <IoIosRefresh
                     onClick={generateCaptcha}
-                    className="text-sm text-blue-600 hover:underline"
-                  >
-                    Refresh
-                  </button>
+                    className="w-5 h-5 text-blue-600 hover:text-blue-800 cursor-pointer"
+                  />
                 </div>
                 <input
                   type="text"

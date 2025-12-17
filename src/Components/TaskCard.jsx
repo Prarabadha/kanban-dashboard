@@ -4,7 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { MdModeEditOutline } from "react-icons/md";
 import Modal from "./Modal";
 import EditTaskModal from '../Components/EditTaskModal'
-import { updateTask } from '../redux/taskActions'
+import { updateTask } from '../redux/taskSlice'
 
 
 export default function TaskCard({ task, onDeleteClick }) {
@@ -26,7 +26,7 @@ export default function TaskCard({ task, onDeleteClick }) {
     const userStr = localStorage.getItem('user')
     if (userStr) {
       const user = JSON.parse(userStr)
-      dispatch(updateTask(task.id, { stage: newStage }, user.id))
+      dispatch(updateTask({ taskId: task.id, updates: { stage: newStage }, userId: user.id }))
     }
   }
 

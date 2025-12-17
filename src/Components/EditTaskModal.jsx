@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateTask } from "../redux/taskActions";
+import { updateTask } from "../redux/taskSlice";
 
 export default function EditTaskModal({onClose , taskData}) {
 
@@ -32,7 +32,7 @@ export default function EditTaskModal({onClose , taskData}) {
     const userStr = localStorage.getItem('user')
     if (userStr) {
       const user = JSON.parse(userStr)
-      dispatch(updateTask(taskData.id, task, user.id))
+      dispatch(updateTask({ taskId: taskData.id, updates: task, userId: user.id }))
       onClose()
     }
   }

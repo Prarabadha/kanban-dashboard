@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addTask } from "../redux/taskActions";
+import { addTask } from "../redux/taskSlice";
 
 export default function TaskForm({onClose}) {
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ export default function TaskForm({onClose}) {
     const userStr = localStorage.getItem('user')
     if (userStr) {
       const user = JSON.parse(userStr)
-      dispatch(addTask({ ...task, stage: 0 }, user.id))
+      dispatch(addTask({ task: { ...task, stage: 0 }, userId: user.id }))
       setTask({ name: "", priority: "", deadline: "" });
       onClose()
     }

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import DashboardSummary from '../Components/DashboardSummary'
-import { fetchTasks } from '../redux/taskActions'
+import { fetchTasks } from '../redux/taskSlice'
 
 export default function Dashboard() {
   const navigate = useNavigate()
