@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Carousel from "../Components/Carousel";
 
@@ -7,20 +7,52 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [captchaQuestion, setCaptchaQuestion] = useState("");
+  const [captchaAnswer, setCaptchaAnswer] = useState("");
+  const [userCaptcha, setUserCaptcha] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const newUser = JSON.parse(localStorage.getItem("userlogin"));
+    setError("");
+    // Validate captcha first
+    if (String(captchaAnswer) !== String(userCaptcha).trim()) {
+      setError("Invalid captcha answer. Please try again.");
+      generateCaptcha();
+      setUserCaptcha("");
+      return;
+    }
+    try {
+      const res = await fetch("http://localhost:5000/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Login failed");
+        return;
+      }
 
-    if (!newUser) return setError("User not found, please Sign Up first.");
-
-    if (newUser.email === email && newUser.password === password) {
-      localStorage.setItem("isLoggedIn", true);
+      // Mark logged in and keep user info (without password)
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("user", JSON.stringify(data));
       navigate("/dashboard");
-    } else {
-      setError("Invalid Credientials Please Sign up");
+    } catch (err) {
+      setError("Network error: " + err.message);
     }
   };
+
+  function generateCaptcha() {
+    // simple addition captcha between 1 and 9
+    const a = Math.floor(Math.random() * 9) + 1
+    const b = Math.floor(Math.random() * 9) + 1
+    setCaptchaQuestion(`${a} + ${b} = ?`)
+    setCaptchaAnswer(a + b)
+  }
+
+  useEffect(() => {
+    generateCaptcha()
+  }, [])
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-200 via-white to-blue-100">
@@ -66,13 +98,24 @@ export default function LoginPage() {
             <div className="flex flex-col gap-1">
               <label className="text-gray-700 font-semibold">Captcha</label>
 
-              {/* Fake Captcha Box – replace with real logic later */}
+              {/* Captcha Box */}
               <div className="flex items-center justify-between border rounded-lg p-3 bg-gray-50">
-                <span className="font-semibold text-gray-600 select-none">
-                  5 + 3 = ?
-                </span>
+                <div className="flex items-center gap-3">
+                  <span className="font-semibold text-gray-600 select-none">
+                    {captchaQuestion}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={generateCaptcha}
+                    className="text-sm text-blue-600 hover:underline"
+                  >
+                    Refresh
+                  </button>
+                </div>
                 <input
                   type="text"
+                  value={userCaptcha}
+                  onChange={(e) => setUserCaptcha(e.target.value)}
                   placeholder="Answer"
                   className="border p-2 w-20 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                 />

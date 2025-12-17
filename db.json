@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": 1765950128225,
+      "email": "tushar@gmail.com",
+      "password": "$2a$10$BgevffA/qfciG2/jxfYLJ.CJXMCRtJNWJvmisHlLflTnILYks5/2S",
+      "name": "tushar"
+    },
+    {
+      "id": 1765950230575,
+      "email": "prarabadhabhagat@gmail.com",
+      "password": "$2a$10$vRV1nV4P8sb/IAAUL/SUGOBFewr40.4lrBnR9yB4/3uIvrWLZIVFq",
+      "name": "prarabadhabhagat"
+    },
+    {
+      "id": 1765950316422,
+      "email": "demo@gmail.com",
+      "password": "$2a$10$VzXNLhy4t6lih7wE.WDQmeh70c52uCC5hcY4AgACJlexbA3m1.miy",
+      "name": "demo"
+    }
+  ]
+}

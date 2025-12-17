@@ -19,9 +19,11 @@ export default function SignUpPage() {
       contactNum: "",
     },
   ]);
+  const [apiError, setApiError] = useState("");
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
+    setApiError("");
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const phoneRegex = /^[6-9]\d{9}$/;
@@ -41,11 +43,25 @@ export default function SignUpPage() {
     const isValid = Object.values(error).every((err) => err === "");
 
     if (isValid) {
-      localStorage.setItem(
-        "userlogin",
-        JSON.stringify({ name, userName, email, password })
-      );
-      navigate("/");
+      try {
+        const res = await fetch("http://localhost:5000/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, userName, email, password, contactNum }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setApiError(data.error || "Signup failed");
+          return;
+        }
+
+        // Optionally store basic user info locally (without password)
+        localStorage.setItem("user", JSON.stringify(data));
+        // Redirect to login page so user can sign in
+        navigate("/");
+      } catch (err) {
+        setApiError("Network error: " + err.message);
+      }
     }
   };
 
@@ -137,6 +153,7 @@ export default function SignUpPage() {
           >
             Sign Up
           </button>
+          {apiError && <p className="text-red-500 mt-2">{apiError}</p>}
         </form>
       </div>
     </div>

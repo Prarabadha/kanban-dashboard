@@ -5,6 +5,7 @@ import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignUpPage'
 import { TaskProvider } from './Context/TaskContext'
 import KanbanBoard from './pages/KanbanBoard'
+import ProtectedRoute from './Components/ProtectedRoute'
 
 export default function App() {
   return (
@@ -13,11 +14,25 @@ export default function App() {
       <Route path='/' element={<LoginPage/>}/>
       <Route path='/signup' element={<SignUpPage/>}/>
     </Routes>
-
+     
     <TaskProvider>
     <Routes>
-      <Route path='/dashboard' element={<Dashboard/>}/>
-      <Route path='/kanbanboard' element={<KanbanBoard/>}/>
+      <Route
+        path='/dashboard'
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path='/kanbanboard'
+        element={
+          <ProtectedRoute>
+            <KanbanBoard />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
     </TaskProvider>
     </>
