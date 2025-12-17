@@ -1,27 +1,33 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import TaskCard from './TaskCard'
-import { useTasks } from '../Context/TaskContext';
+import { updateTask } from '../redux/taskActions'
 
-export default function TaskColumn({stage , tasks ,stageIndex}) {
+export default function TaskColumn({stage , tasks ,stageIndex, onDeleteClick, onTrashShow}) {
 
-  const {moveStage , setShowTrash} = useTasks();
+  const dispatch = useDispatch()
 
   const allowDrop = (e) => {
     e.preventDefault();
   }
 
     const handleDrop = (e) => {
-    const name = e.dataTransfer.getData("taskName");
+    const taskData = e.dataTransfer.getData("taskData");
     const fromStage = Number(e.dataTransfer.getData("taskStage"));
 
-    if (fromStage !== stageIndex) {
-      moveStage(name, stageIndex);
+    if (taskData && fromStage !== stageIndex) {
+      const task = JSON.parse(taskData)
+      const userStr = localStorage.getItem('user')
+      if (userStr) {
+        const user = JSON.parse(userStr)
+        dispatch(updateTask(task.id, { stage: stageIndex }, user.id))
+      }
     }
 
-    setShowTrash(false);
+    onTrashShow && onTrashShow();
   };
 
-  const handleDragEnter = () => setShowTrash(true);
+  const handleDragEnter = () => onTrashShow && onTrashShow();
 
   return (
     <>
@@ -37,7 +43,7 @@ export default function TaskColumn({stage , tasks ,stageIndex}) {
         {tasks.length === 0 ? (
           <p className="text-gray-400 text-sm">No tasks</p>
         ) : (
-          tasks.map((task) => <TaskCard key={task.name} task={task} />)
+          tasks.map((task) => <TaskCard key={task.id} task={task} onDeleteClick={onDeleteClick} />)
         )}
       </div>
     </div>

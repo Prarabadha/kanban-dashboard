@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useTasks } from "../Context/TaskContext";
+import { useDispatch } from "react-redux";
+import { updateTask } from "../redux/taskActions";
 
 export default function EditTaskModal({onClose , taskData}) {
 
-  const { updateTask } = useTasks();
+  const dispatch = useDispatch();
 
 
   const [task, setTask] = useState({
@@ -26,9 +27,14 @@ export default function EditTaskModal({onClose , taskData}) {
     
     if(!task.name || !task.deadline || !task.priority){
       alert('Please fill the required fields')
+      return
     }
-    updateTask(taskData.name , task)
-    onClose()
+    const userStr = localStorage.getItem('user')
+    if (userStr) {
+      const user = JSON.parse(userStr)
+      dispatch(updateTask(taskData.id, task, user.id))
+      onClose()
+    }
   }
 
   return (

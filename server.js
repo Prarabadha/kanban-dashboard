@@ -52,6 +52,62 @@ server.post('/signin', (req, res) => {
   return res.json(safe)
 })
 
+// GET /tasks - Get all tasks for the logged-in user (filtered by userId)
+server.get('/tasks', (req, res) => {
+  const userId = req.query.userId
+  if (!userId) {
+    return res.status(400).json({ error: 'userId query parameter is required' })
+  }
+  const tasks = router.db.get('tasks').filter({ userId: parseInt(userId) }).value()
+  return res.json(tasks)
+})
+
+// POST /tasks - Create a new task for the logged-in user
+server.post('/tasks', (req, res) => {
+  const { name, priority, deadline, stage, userId } = req.body
+  if (!name || !userId) {
+    return res.status(400).json({ error: 'name and userId are required' })
+  }
+  const id = Date.now()
+  const task = { id, name, priority: priority || '', deadline: deadline || '', stage: stage || 0, userId: parseInt(userId) }
+  router.db.get('tasks').push(task).write()
+  return res.status(201).json(task)
+})
+
+// PUT /tasks/:id - Update a task (verify it belongs to the user)
+server.put('/tasks/:id', (req, res) => {
+  const taskId = parseInt(req.params.id)
+  const { userId, ...updates } = req.body
+  const task = router.db.get('tasks').find({ id: taskId }).value()
+  if (!task) {
+    return res.status(404).json({ error: 'Task not found' })
+  }
+  if (userId && task.userId !== parseInt(userId)) {
+    return res.status(403).json({ error: 'Unauthorized' })
+  }
+  const updated = { ...task, ...updates }
+  router.db.get('tasks').find({ id: taskId }).assign(updated).write()
+  return res.json(updated)
+})
+
+// DELETE /tasks/:id - Delete a task (verify it belongs to the user)
+server.delete('/tasks/:id', (req, res) => {
+  const taskId = parseInt(req.params.id)
+  const userId = req.query.userId
+  if (!userId) {
+    return res.status(400).json({ error: 'userId query parameter is required' })
+  }
+  const task = router.db.get('tasks').find({ id: taskId }).value()
+  if (!task) {
+    return res.status(404).json({ error: 'Task not found' })
+  }
+  if (task.userId !== parseInt(userId)) {
+    return res.status(403).json({ error: 'Unauthorized' })
+  }
+  router.db.get('tasks').remove({ id: taskId }).write()
+  return res.json({ message: 'Task deleted' })
+})
+
 // Fallback to default router (REST for /users and any other resources in db.json)
 server.use(router)
 

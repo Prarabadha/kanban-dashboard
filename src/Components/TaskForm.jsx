@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useTasks } from "../Context/TaskContext";
+import { useDispatch } from "react-redux";
+import { addTask } from "../redux/taskActions";
 
 export default function TaskForm({onClose}) {
-  const { addTask } = useTasks();
+  const dispatch = useDispatch();
 
   const [task, setTask] = useState({
     name: "",
@@ -13,10 +14,15 @@ export default function TaskForm({onClose}) {
   const handleCreate=()=>{
     if(!task.name || !task.deadline || !task.priority){
       alert('Please fill the required fields')
+      return
     }
-    addTask({...task , stage:0})
-    setTask({ name: "", priority: "", deadline: "" });
-    onClose()
+    const userStr = localStorage.getItem('user')
+    if (userStr) {
+      const user = JSON.parse(userStr)
+      dispatch(addTask({ ...task, stage: 0 }, user.id))
+      setTask({ name: "", priority: "", deadline: "" });
+      onClose()
+    }
   }
 
   return (

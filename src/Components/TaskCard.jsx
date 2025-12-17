@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { useTasks } from "../Context/TaskContext";
+import { useDispatch } from "react-redux";
 import { MdDelete } from "react-icons/md";
 import { MdModeEditOutline } from "react-icons/md";
 import Modal from "./Modal";
 import EditTaskModal from '../Components/EditTaskModal'
+import { updateTask } from '../redux/taskActions'
 
 
-export default function TaskCard({ task }) {
-  const { deleteTask, moveStage, setShowTrash} = useTasks();
+export default function TaskCard({ task, onDeleteClick }) {
+  const dispatch = useDispatch()
   const[isOpen,setIsOpen] = useState(false);
 
   const priorityColors = {
@@ -17,18 +18,21 @@ export default function TaskCard({ task }) {
   };
 
   const handleDragStart = (e) => {
-    e.dataTransfer.setData("taskName", task.name);
+    e.dataTransfer.setData("taskData", JSON.stringify(task));
     e.dataTransfer.setData("taskStage", task.stage);
-    setShowTrash(true);
   };
 
-  const handleDragEnd = () => {
-    setShowTrash(false);
-  };
+  const handleMoveStage = (newStage) => {
+    const userStr = localStorage.getItem('user')
+    if (userStr) {
+      const user = JSON.parse(userStr)
+      dispatch(updateTask(task.id, { stage: newStage }, user.id))
+    }
+  }
 
 
   return (
-    <div draggable onDragStart={handleDragStart} onDragEnd={handleDragEnd} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
+    <div draggable onDragStart={handleDragStart} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
       <Modal isOpen={isOpen} onClose={()=>setIsOpen(false)}>
         <EditTaskModal onClose={()=>setIsOpen(false)} taskData={task}/>
       </Modal>
@@ -45,7 +49,7 @@ export default function TaskCard({ task }) {
       <div className="flex mt-4 gap-2 justify-end">
         <button
           disabled={task.stage === 0}
-          onClick={() => moveStage(task.name, task.stage - 1)}
+          onClick={() => handleMoveStage(task.stage - 1)}
           className="px-2 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 disabled:opacity-30 cursor-pointer" 
         >
           ◀
@@ -53,7 +57,7 @@ export default function TaskCard({ task }) {
 
         <button
           disabled={task.stage === 3}
-          onClick={() => moveStage(task.name, task.stage + 1)}
+          onClick={() => handleMoveStage(task.stage + 1)}
           className="px-2 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 disabled:opacity-30 cursor-pointer"
         >
           ▶
@@ -66,7 +70,7 @@ export default function TaskCard({ task }) {
 
         <MdDelete
           className="text-red-500 hover:bg-red-60 w-6 h-6 cursor-pointer"
-          onClick={() => deleteTask(task.name)}
+          onClick={() => onDeleteClick && onDeleteClick(task.id, task.name)}
         />
          </div>
       </div>

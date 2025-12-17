@@ -18,5 +18,23 @@
       "password": "$2a$10$VzXNLhy4t6lih7wE.WDQmeh70c52uCC5hcY4AgACJlexbA3m1.miy",
       "name": "demo"
     }
+  ],
+  "tasks": [
+    {
+      "id": 1765954788972,
+      "name": "new task",
+      "priority": "low",
+      "deadline": "2025-12-19",
+      "stage": 0,
+      "userId": 1765950316422
+    },
+    {
+      "id": 1765954859979,
+      "name": "new task kanban",
+      "priority": "high",
+      "deadline": "2025-12-18",
+      "stage": 3,
+      "userId": 1765950128225
+    }
   ]
 }

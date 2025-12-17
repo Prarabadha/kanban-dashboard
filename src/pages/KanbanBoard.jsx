@@ -1,22 +1,41 @@
-import React, { useState } from "react";
-import { useTasks } from "../Context/TaskContext";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import TaskForm from "../Components/TaskForm";
 import TaskColumn from "../Components/TaskColumn";
 import Modal from "../Components/Modal";
 import { FaArrowLeft } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { fetchTasks, deleteTask } from "../redux/taskActions";
 
 
 
 export default function KanbanBoard() {
   const[isOpen,setIsOpen]=useState(false)
-  const[deleteConfirmation,setDeleteConfirmation]=useState({isOpen:false,taskName:null})
+  const[deleteConfirmation,setDeleteConfirmation]=useState({isOpen:false,taskId:null,taskName:null})
   const[isTrashHovered,setIsTrashHovered]=useState(false)
+  const[showTrash,setShowTrash]=useState(false)
 
-  const { tasks , showTrash , setShowTrash , deleteTask } = useTasks();
-  const stages = ["Backlog", "To Do", "Ongoing", "Done"];
+  const dispatch = useDispatch()
+  const { tasks } = useSelector((state) => state.tasks)
+  const stages = ["Backlog", "To Do", "Ongoing", "Done"]
 
+  useEffect(() => {
+    const userStr = localStorage.getItem('user')
+    if (userStr) {
+      const user = JSON.parse(userStr)
+      dispatch(fetchTasks(user.id))
+    }
+  }, [dispatch])
+
+  const handleDeleteTask = () => {
+    const userStr = localStorage.getItem('user')
+    if (userStr) {
+      const user = JSON.parse(userStr)
+      dispatch(deleteTask(deleteConfirmation.taskId, user.id))
+      setDeleteConfirmation({isOpen:false,taskId:null,taskName:null})
+    }
+  }
 
 
   return (
@@ -51,6 +70,8 @@ export default function KanbanBoard() {
             stage={stage}
             stageIndex={index}
             tasks={tasks.filter((t) => t.stage === index)}
+            onDeleteClick={(taskId, taskName) => setDeleteConfirmation({isOpen:true, taskId, taskName})}
+            onTrashShow={() => setShowTrash(true)}
           />
         ))}
       </div>
@@ -68,9 +89,10 @@ export default function KanbanBoard() {
           onDragLeave={() => setIsTrashHovered(false)}
           onDrop={(e) => {
             e.preventDefault();
-            const taskName = e.dataTransfer.getData("taskName");
-            if (taskName) {
-              setDeleteConfirmation({ isOpen: true, taskName });
+            const taskData = e.dataTransfer.getData("taskData");
+            if (taskData) {
+              const task = JSON.parse(taskData);
+              setDeleteConfirmation({ isOpen: true, taskId: task.id, taskName: task.name });
             }
             setShowTrash(false);
             setIsTrashHovered(false);
@@ -81,7 +103,7 @@ export default function KanbanBoard() {
       )}
 
       {/* Delete Confirmation Modal */}
-      <Modal isOpen={deleteConfirmation.isOpen} onClose={() => setDeleteConfirmation({isOpen:false,taskName:null})}>
+      <Modal isOpen={deleteConfirmation.isOpen} onClose={() => setDeleteConfirmation({isOpen:false,taskId:null,taskName:null})}>
         <div className="bg-white p-6 rounded-lg shadow-lg w-[500px] ">
           <h2 className="text-xl font-bold text-gray-800 mb-4">Delete Task?</h2>
           <p className="text-gray-600 mb-6">
@@ -89,16 +111,13 @@ export default function KanbanBoard() {
           </p>
           <div className="flex gap-4 justify-end">
             <button
-              onClick={() => setDeleteConfirmation({isOpen:false,taskName:null})}
+              onClick={() => setDeleteConfirmation({isOpen:false,taskId:null,taskName:null})}
               className="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 cursor-pointer font-semibold"
             >
               Cancel
             </button>
             <button
-              onClick={() => {
-                deleteTask(deleteConfirmation.taskName);
-                setDeleteConfirmation({isOpen:false,taskName:null});
-              }}
+              onClick={handleDeleteTask}
               className="px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white cursor-pointer font-semibold"
             >
               Delete
