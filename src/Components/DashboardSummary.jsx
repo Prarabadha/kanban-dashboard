@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 import { use } from "react";
-=======
->>>>>>> 8ac214770122924779bd174c8e8a5cc90c579cf3
 import { Link, useNavigate } from "react-router-dom";
 import {
   PieChart,
@@ -19,10 +16,6 @@ import {
 
 export default function DashboardSummary({ totalTasks, completed, pending }) {
   const navigate = useNavigate();
-<<<<<<< HEAD
-=======
-
->>>>>>> 8ac214770122924779bd174c8e8a5cc90c579cf3
   // Prepare data for pie chart
   const pieData = [
     { name: "Completed", value: completed, color: "#10b981" },
@@ -64,20 +57,11 @@ export default function DashboardSummary({ totalTasks, completed, pending }) {
               Go To Board
             </div>
           </Link>
-<<<<<<< HEAD
           <Link  to={'/'} onClick={handlelogout}>
             <div className="bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-2 rounded-full text-sm font-semibold">
               Logout
             </div>
           </Link>
-=======
-          <button
-            onClick={handleLogout}
-            className="bg-gradient-to-r from-red-500 to-red-600 px-4 py-2 rounded-full text-sm font-semibold hover:from-red-600 hover:to-red-700 transition-all"
-          >
-            Logout
-          </button>
->>>>>>> 8ac214770122924779bd174c8e8a5cc90c579cf3
         </div>
       </div>
 
