@@ -27,22 +27,22 @@ export default function TaskForm({onClose}) {
 
   return (
   
-    <div className=" p-5 mb-6 max-w-xl mx-auto">
-      <h2 className="text-xl font-semibold mb-4 text-gray-800">
+    <div className="p-3 sm:p-5 mb-6 w-full">
+      <h2 className="text-lg sm:text-xl font-semibold mb-4 text-gray-800">
         Create New Task
       </h2>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3 sm:gap-4">
         
         <input
           placeholder="Task Name"
-          className="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
+          className="border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-blue-400 outline-none"
           value={task.name}
           onChange={(e) => setTask({ ...task, name: e.target.value })}
         />
 
         <select
-          className="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
+          className="border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-blue-400 outline-none"
           value={task.priority}
           onChange={(e) => setTask({ ...task, priority: e.target.value })}
         >
@@ -54,14 +54,14 @@ export default function TaskForm({onClose}) {
 
         <input
           type="date"
-          className="border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
+          className="border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-blue-400 outline-none"
           value={task.deadline}
           onChange={(e) => setTask({ ...task, deadline: e.target.value })}
         />
 
         <button
           onClick={handleCreate}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition-all cursor-pointer"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 text-sm sm:text-base rounded-lg transition-all cursor-pointer"
         >
           Create Task
         </button>

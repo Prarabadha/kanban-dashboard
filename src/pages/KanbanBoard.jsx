@@ -39,31 +39,31 @@ export default function KanbanBoard() {
 
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-linear-to-br from-blue-200 via-white to-blue-100">
+    <div className="flex flex-col items-center min-h-screen bg-linear-to-br from-blue-200 via-white to-blue-100 px-4 sm:px-6 lg:px-8">
    
       <Modal isOpen={isOpen} onClose={()=>setIsOpen(false)}>
         <TaskForm onClose={()=> setIsOpen(false)}/>
       </Modal>
 
-      <div className="flex justify-between items-center w-[1650px]">
+      <div className="flex flex-col sm:flex-row justify-between items-center w-full max-w-7xl gap-4 sm:gap-0">
     <div  className="flex justify-center items-center gap-3">
        <Link to='/dashboard'>
-         <FaArrowLeft className="w-[30px] h-[30px] mt-2"/>
+         <FaArrowLeft className="w-6 h-6 sm:w-[30px] sm:h-[30px] mt-2"/>
        </Link>
-      <div className="text-[30px] font-bold mt-2">Kanban Board</div>
+      <div className="text-xl sm:text-2xl lg:text-[30px] font-bold mt-2">Kanban Board</div>
     </div>
 
    <div>
      <button
         onClick={() => setIsOpen(true)}
-        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 cursor-pointer mt-4"
+        className="bg-blue-600 text-white px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg hover:bg-blue-700 cursor-pointer mt-4 whitespace-nowrap"
       >
         + Create Task
       </button>
    </div>
       </div>
 
-      <div className="flex gap-5 justify-center mt-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5 justify-center mt-8 w-full max-w-7xl auto-rows-max">
         {stages.map((stage, index) => (
           <TaskColumn
             key={stage}

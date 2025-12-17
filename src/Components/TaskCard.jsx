@@ -32,25 +32,25 @@ export default function TaskCard({ task, onDeleteClick }) {
 
 
   return (
-    <div draggable onDragStart={handleDragStart} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all">
+    <div draggable onDragStart={handleDragStart} className="bg-white p-3 sm:p-4 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all cursor-grab active:cursor-grabbing">
       <Modal isOpen={isOpen} onClose={()=>setIsOpen(false)}>
         <EditTaskModal onClose={()=>setIsOpen(false)} taskData={task}/>
       </Modal>
-      <div className="flex justify-between items-start">
-        <h4 className="font-semibold text-gray-800">{task.name}</h4>
+      <div className="flex justify-between items-start gap-2">
+        <h4 className="font-semibold text-gray-800 text-sm sm:text-base break-words flex-1">{task.name}</h4>
 
         <span
-          className={`h-3 w-3 rounded-full ${priorityColors[task.priority]}`}
+          className={`h-2 w-2 sm:h-3 sm:w-3 rounded-full flex-shrink-0 ${priorityColors[task.priority]}`}
         ></span>
       </div>
 
       <p className="text-xs text-gray-500 mt-1">Deadline: {task.deadline}</p>
 
-      <div className="flex mt-4 gap-2 justify-end">
+      <div className="flex mt-3 sm:mt-4 gap-1 sm:gap-2 justify-end flex-wrap">
         <button
           disabled={task.stage === 0}
           onClick={() => handleMoveStage(task.stage - 1)}
-          className="px-2 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 disabled:opacity-30 cursor-pointer" 
+          className="px-1.5 sm:px-2 py-1 text-xs sm:text-sm rounded-lg bg-gray-200 hover:bg-gray-300 disabled:opacity-30 cursor-pointer" 
         >
           ◀
         </button>
@@ -58,18 +58,18 @@ export default function TaskCard({ task, onDeleteClick }) {
         <button
           disabled={task.stage === 3}
           onClick={() => handleMoveStage(task.stage + 1)}
-          className="px-2 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 disabled:opacity-30 cursor-pointer"
+          className="px-1.5 sm:px-2 py-1 text-xs sm:text-sm rounded-lg bg-gray-200 hover:bg-gray-300 disabled:opacity-30 cursor-pointer"
         >
           ▶
         </button>
          
-         <div className="flex gap-1 mt-1">
+         <div className="flex gap-1 mt-0.5 sm:mt-1">
           <MdModeEditOutline onClick={()=> {
           setIsOpen(true)
-         }} className="text-blue-500 hover:bg-red-60 w-6 h-6 cursor-pointer"/>
+         }} className="text-blue-500 hover:bg-red-60 w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:text-blue-700"/>
 
         <MdDelete
-          className="text-red-500 hover:bg-red-60 w-6 h-6 cursor-pointer"
+          className="text-red-500 hover:bg-red-60 w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:text-red-700"
           onClick={() => onDeleteClick && onDeleteClick(task.id, task.name)}
         />
          </div>

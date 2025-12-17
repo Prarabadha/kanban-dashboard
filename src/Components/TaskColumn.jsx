@@ -31,17 +31,17 @@ export default function TaskColumn({stage , tasks ,stageIndex, onDeleteClick, on
 
   return (
     <>
-   <div className="w-[400px] h-[600px] bg-gray-50 rounded-2xl shadow-md"
+   <div className="w-full sm:w-80 lg:w-[300px] min-h-[400px] sm:min-h-[600px] bg-gray-50 rounded-2xl shadow-md flex flex-col"
         onDragOver={allowDrop}
       onDrop={handleDrop}
       onDragEnter={handleDragEnter}
    >
-      <h3 className={`flex justify-center items-center text-lg text-white font-semibold mb-3 ${stage === 'Done' ? 'bg-green-500' : stage === 'Ongoing' ? 'bg-blue-900' : stage === 'Backlog' ? 'bg-red-300' : 'bg-purple-300'} h-[50px] rounded-tl-lg rounded-tr-lg`}>
+      <h3 className={`flex justify-center items-center text-sm sm:text-base lg:text-lg text-white font-semibold mb-3 ${stage === 'Done' ? 'bg-green-500' : stage === 'Ongoing' ? 'bg-blue-900' : stage === 'Backlog' ? 'bg-red-300' : 'bg-purple-300'} h-[50px] rounded-tl-lg rounded-tr-lg`}>
         {stage}
       </h3>
-      <div className="flex flex-col gap-3 p-4">
+      <div className="flex flex-col gap-2 sm:gap-3 p-3 sm:p-4 overflow-y-auto flex-1">
         {tasks.length === 0 ? (
-          <p className="text-gray-400 text-sm">No tasks</p>
+          <p className="text-gray-400 text-xs sm:text-sm">No tasks</p>
         ) : (
           tasks.map((task) => <TaskCard key={task.id} task={task} onDeleteClick={onDeleteClick} />)
         )}
