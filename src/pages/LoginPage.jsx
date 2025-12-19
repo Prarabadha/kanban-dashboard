@@ -79,11 +79,11 @@ export default function LoginPage() {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-200 via-white to-blue-100">
-      <div className="flex gap-2 bg-white p-8 rounded-lg">
-        <div className="w-[550px] rounded-lg  bg-white shadow-2xl  border border-gray-200">
+      <div className="flex lg:flex-row flex-col gap-2 bg-white p-8 rounded-lg">
+        <div className="w-[450px] lg:w-[550px] rounded-lg  bg-white shadow-2xl  border border-gray-200">
           <Carousel />
         </div>
-        <div className="w-[550px] p-8 bg-white shadow-2xl rounded-2xl border border-gray-200">
+        <div className="w-[450px] lg:w-[550px] p-8 bg-white shadow-2xl rounded-2xl border border-gray-200">
           {/* Heading */}
           <h2 className="text-3xl font-bold text-center text-blue-600 mb-6">
             Kanban App
