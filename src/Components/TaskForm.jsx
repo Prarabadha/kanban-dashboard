@@ -11,11 +11,38 @@ export default function TaskForm({onClose}) {
     deadline: "",
   });
 
+  const[error,setError]=useState({
+    name:'',
+    priority:'',
+    deadline:''
+  });
+
   const handleCreate=()=>{
-    if(!task.name || !task.deadline || !task.priority){
-      alert('Please fill the required fields')
-      return
+
+    const errorCheck={
+      name:'',
+      priority:'',
+      deadline:''
+    };
+
+    let hasError=false;
+
+    if(!task.name){
+      errorCheck.name='Task name is required';
+      hasError=true;
     }
+    if(!task.priority){
+      errorCheck.priority='Priority is required';
+      hasError=true;
+    }
+    if(!task.deadline){
+      errorCheck.deadline='Deadline is required';
+      hasError=true;
+    }
+
+    setError(errorCheck);
+
+    if(hasError) return;  
     const userStr = localStorage.getItem('user')
     if (userStr) {
       const user = JSON.parse(userStr)
@@ -40,6 +67,9 @@ export default function TaskForm({onClose}) {
           value={task.name}
           onChange={(e) => setTask({ ...task, name: e.target.value })}
         />
+        {
+          error.name && <p className="text-red-500 text-sm">{error.name}</p>
+        }
 
         <select
           className="border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-blue-400 outline-none"
@@ -52,12 +82,16 @@ export default function TaskForm({onClose}) {
           <option value="low">Low Priority</option>
         </select>
 
+          {error.priority && <p className="text-red-500 text-sm">{error.priority}</p>}
+
         <input
           type="date"
           className="border rounded-lg px-3 sm:px-4 py-2 text-sm sm:text-base focus:ring-2 focus:ring-blue-400 outline-none"
           value={task.deadline}
           onChange={(e) => setTask({ ...task, deadline: e.target.value })}
         />
+
+        {error.deadline && <p className="text-red-500 text-sm">{error.deadline}</p>}
 
         <button
           onClick={handleCreate}

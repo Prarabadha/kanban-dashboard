@@ -31,7 +31,7 @@ export default function TaskColumn({stage , tasks ,stageIndex, onDeleteClick, on
 
   return (
     <>
-   <div className="w-full sm:w-80 lg:w-[300px] min-h-[400px] sm:min-h-[600px] bg-gray-50 rounded-2xl shadow-md flex flex-col"
+   <div className="w-full sm:w-80 lg:w-[380px] min-h-[400px] sm:min-h-[600px] bg-gray-50 rounded-2xl shadow-md flex flex-col"
         onDragOver={allowDrop}
       onDrop={handleDrop}
       onDragEnter={handleDragEnter}

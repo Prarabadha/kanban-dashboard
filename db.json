@@ -29,6 +29,18 @@
       "email": "job1@gmail.com",
       "password": "$2a$10$Ec77/eY7El7.3pA7K0d1iOZu3JZWrtNSBPAyG362qJxp6aZau49xi",
       "name": "job"
+    },
+    {
+      "id": 1766063868339,
+      "email": "bhagat@gmail.com",
+      "password": "$2a$10$4UDcayvtfwQB3Mk2ERsaxun0GrVeA9owkAxig4JYeUhbNAlYAnkgi",
+      "name": "Prarabdha arun bhagat"
+    },
+    {
+      "id": 1766113477154,
+      "email": "kanban@gmail.com",
+      "password": "$2a$10$ciU/.MnL7vNqERuPSZw1Kuu2k9O1mFKg7qQ/TOpzQ4U7F0E.MErrO",
+      "name": "kanban dot com"
     }
   ],
   "tasks": [
@@ -45,7 +57,7 @@
       "name": "kanban",
       "priority": "high",
       "deadline": "2025-12-06",
-      "stage": 3,
+      "stage": 2,
       "userId": 1765950316422
     },
     {
@@ -58,10 +70,26 @@
     },
     {
       "id": 1765964216600,
-      "name": "new name",
+      "name": "news",
       "priority": "high",
       "deadline": "2025-12-18",
-      "stage": 2,
+      "stage": 3,
+      "userId": 1765950316422
+    },
+    {
+      "id": 1765968408953,
+      "name": "new task",
+      "priority": "low",
+      "deadline": "2025-12-18",
+      "stage": 3,
+      "userId": 1765950316422
+    },
+    {
+      "id": 1765974462060,
+      "name": "again",
+      "priority": "high",
+      "deadline": "2025-12-12",
+      "stage": 3,
       "userId": 1765950316422
     }
   ]

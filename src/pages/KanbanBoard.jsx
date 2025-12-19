@@ -45,7 +45,7 @@ export default function KanbanBoard() {
         <TaskForm onClose={()=> setIsOpen(false)}/>
       </Modal>
 
-      <div className="flex flex-col sm:flex-row justify-between items-center w-full max-w-7xl gap-4 sm:gap-0">
+      <div className="flex flex-col sm:flex-row justify-between items-center w-full  max-w-[1600px] gap-4 sm:gap-0">
     <div  className="flex justify-center items-center gap-3">
        <Link to='/dashboard'>
          <FaArrowLeft className="w-6 h-6 sm:w-[30px] sm:h-[30px] mt-2"/>
@@ -63,7 +63,7 @@ export default function KanbanBoard() {
    </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5 justify-center mt-8 w-full max-w-7xl auto-rows-max">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5 justify-center mt-8 w-full max-w-[1600px]">
         {stages.map((stage, index) => (
           <TaskColumn
             key={stage}
@@ -76,7 +76,6 @@ export default function KanbanBoard() {
         ))}
       </div>
 
-      {/* Trash Bin - Bottom Right */}
       {showTrash && (
         <div
           className={`fixed bottom-8 right-8 w-24 h-24 rounded-full flex items-center justify-center transition-all cursor-pointer ${
@@ -102,9 +101,8 @@ export default function KanbanBoard() {
         </div>
       )}
 
-      {/* Delete Confirmation Modal */}
       <Modal isOpen={deleteConfirmation.isOpen} onClose={() => setDeleteConfirmation({isOpen:false,taskId:null,taskName:null})}>
-        <div className="bg-white p-6 rounded-lg shadow-lg w-[500px] ">
+        <div className="bg-white p-6 rounded-lg  w-[500px] ">
           <h2 className="text-xl font-bold text-gray-800 mb-4">Delete Task?</h2>
           <p className="text-gray-600 mb-6">
             Are you sure you want to delete "<strong>{deleteConfirmation.taskName}</strong>"? This action cannot be undone.

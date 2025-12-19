@@ -2,64 +2,86 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Carousel from "../Components/Carousel";
 import { IoIosRefresh } from "react-icons/io";
-
+import { toast } from "react-toastify";
 
 export default function LoginPage() {
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({
+    email: "",
+    password: "",
+    captcha: "",
+  });
+
   const [captchaQuestion, setCaptchaQuestion] = useState("");
   const [captchaAnswer, setCaptchaAnswer] = useState("");
   const [userCaptcha, setUserCaptcha] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError("");
-    // Validate captcha first
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const errorCheck = {
+      email: !emailRegex.test(email) ? "Please enter a valid email" : "",
+      password:
+        password.length < 6 ? "Password must be at least 6 characters" : "",
+      captcha:
+        userCaptcha.trim() === "" ||
+        String(captchaAnswer) !== String(userCaptcha).trim()
+          ? "Please enter the captcha answer"
+          : "",
+    };
+
+    setFieldErrors(errorCheck);
+    const isValid = Object.values(errorCheck).every((err) => err === "");
+    if (isValid) {
+      try {
+        const res = await fetch("http://localhost:5000/signin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          return;
+        }
+
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("user", JSON.stringify(data));
+        toast.success("Login Successful!");
+        navigate("/dashboard");
+      } catch (err) {
+        console.log(err);
+        toast.error("Login Failed. Please try again.");
+      }
+    }
+  };
+
+  useEffect(() => {
     if (String(captchaAnswer) !== String(userCaptcha).trim()) {
-      setError("Invalid captcha answer. Please try again.");
       generateCaptcha();
       setUserCaptcha("");
       return;
     }
-    try {
-      const res = await fetch("http://localhost:5000/signin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || "Login failed");
-        return;
-      }
-
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("user", JSON.stringify(data));
-      navigate("/dashboard");
-    } catch (err) {
-      setError("Network error: " + err.message);
-    }
-  };
+  }, []);
 
   function generateCaptcha() {
-    // simple addition captcha between 1 and 9
-    const a = Math.floor(Math.random() * 9) + 1
-    const b = Math.floor(Math.random() * 9) + 1
-    setCaptchaQuestion(`${a} + ${b} = ?`)
-    setCaptchaAnswer(a + b)
+    const a = Math.floor(Math.random() * 9) + 1;
+    const b = Math.floor(Math.random() * 9) + 1;
+    setCaptchaQuestion(`${a} + ${b} = ?`);
+    setCaptchaAnswer(a + b);
   }
 
   useEffect(() => {
-    generateCaptcha()
-  }, [])
+    generateCaptcha();
+  }, []);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-200 via-white to-blue-100">
       <div className="flex gap-2 bg-white p-8 rounded-lg">
         <div className="w-[550px] rounded-lg  bg-white shadow-2xl  border border-gray-200">
-           <Carousel/>
+          <Carousel />
         </div>
         <div className="w-[550px] p-8 bg-white shadow-2xl rounded-2xl border border-gray-200">
           {/* Heading */}
@@ -81,6 +103,9 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
               />
+              {fieldErrors.email && (
+                <p className="text-red-500">{fieldErrors.email}</p>
+              )}
             </div>
 
             {/* Password */}
@@ -93,6 +118,9 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
               />
+              {fieldErrors.password && (
+                <p className="text-red-500">{fieldErrors.password}</p>
+              )}
             </div>
 
             {/* Captcha */}
@@ -119,6 +147,9 @@ export default function LoginPage() {
                 />
               </div>
             </div>
+            {fieldErrors.captcha && (
+              <p className="text-red-500">{fieldErrors.captcha}</p>
+            )}
 
             {/* Login Button */}
             <button
@@ -128,7 +159,7 @@ export default function LoginPage() {
             >
               Login
             </button>
-            {error && <p className="text-red-500">{error}</p>}
+            {/* {error && <p className="text-red-500">{error}</p>} */}
           </form>
 
           {/* Footer */}

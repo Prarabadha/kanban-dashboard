@@ -8,7 +8,6 @@ const middlewares = jsonServer.defaults()
 server.use(jsonServer.bodyParser)
 server.use(middlewares)
 
-// Signup: creates a new user with hashed password
 server.post('/signup', (req, res) => {
   const { email, password, name } = req.body
   if (!email || !password) {
@@ -31,7 +30,6 @@ server.post('/signup', (req, res) => {
   return res.status(201).json(safe)
 })
 
-// Signin: validates credentials and returns user data (without password)
 server.post('/signin', (req, res) => {
   const { email, password } = req.body
   if (!email || !password) {
@@ -52,7 +50,6 @@ server.post('/signin', (req, res) => {
   return res.json(safe)
 })
 
-// GET /tasks - Get all tasks for the logged-in user (filtered by userId)
 server.get('/tasks', (req, res) => {
   const userId = req.query.userId
   if (!userId) {
@@ -62,7 +59,6 @@ server.get('/tasks', (req, res) => {
   return res.json(tasks)
 })
 
-// POST /tasks - Create a new task for the logged-in user
 server.post('/tasks', (req, res) => {
   const { name, priority, deadline, stage, userId } = req.body
   if (!name || !userId) {
@@ -74,7 +70,6 @@ server.post('/tasks', (req, res) => {
   return res.status(201).json(task)
 })
 
-// PUT /tasks/:id - Update a task (verify it belongs to the user)
 server.put('/tasks/:id', (req, res) => {
   const taskId = parseInt(req.params.id)
   const { userId, ...updates } = req.body
@@ -90,7 +85,6 @@ server.put('/tasks/:id', (req, res) => {
   return res.json(updated)
 })
 
-// DELETE /tasks/:id - Delete a task (verify it belongs to the user)
 server.delete('/tasks/:id', (req, res) => {
   const taskId = parseInt(req.params.id)
   const userId = req.query.userId
@@ -108,7 +102,6 @@ server.delete('/tasks/:id', (req, res) => {
   return res.json({ message: 'Task deleted' })
 })
 
-// Fallback to default router (REST for /users and any other resources in db.json)
 server.use(router)
 
 const PORT = process.env.JSON_SERVER_PORT || 5000
