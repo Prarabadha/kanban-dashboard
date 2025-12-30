@@ -41,6 +41,18 @@
       "email": "kanban@gmail.com",
       "password": "$2a$10$ciU/.MnL7vNqERuPSZw1Kuu2k9O1mFKg7qQ/TOpzQ4U7F0E.MErrO",
       "name": "kanban dot com"
+    },
+    {
+      "id": 1766749377018,
+      "email": "newlogin@gmail.com",
+      "password": "$2a$10$0Ot6UM1YILubkFR8jE2hjO0tI1RWwwORyAQbL0IktcR.oROB6pPU6",
+      "name": "newlogin"
+    },
+    {
+      "id": 1766988956544,
+      "email": "peter@gmail.com",
+      "password": "$2a$10$3moCh02RS62n6FFg7FWEEu4SbsgBs6mPiXZZH70BZwraomq16hYJG",
+      "name": "peter parkar"
     }
   ],
   "tasks": [
@@ -51,14 +63,6 @@
       "deadline": "2025-12-18",
       "stage": 2,
       "userId": 1765950128225
-    },
-    {
-      "id": 1765955728345,
-      "name": "kanban",
-      "priority": "high",
-      "deadline": "2025-12-06",
-      "stage": 2,
-      "userId": 1765950316422
     },
     {
       "id": 1765957745347,
@@ -73,15 +77,7 @@
       "name": "news",
       "priority": "high",
       "deadline": "2025-12-18",
-      "stage": 3,
-      "userId": 1765950316422
-    },
-    {
-      "id": 1765968408953,
-      "name": "new task",
-      "priority": "low",
-      "deadline": "2025-12-18",
-      "stage": 2,
+      "stage": 1,
       "userId": 1765950316422
     },
     {

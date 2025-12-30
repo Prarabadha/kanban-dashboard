@@ -7,8 +7,8 @@ export default function ProtectedRoute({ children }) {
     if (isLoggedIn === 'true') {
       return children
     }
-  } catch (e) {
-    // ignore and redirect
+  } catch (error) {
+    console.log(error)
   }
   return <Navigate to='/' replace />
 }

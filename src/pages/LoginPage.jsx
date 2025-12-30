@@ -43,9 +43,17 @@ export default function LoginPage() {
           body: JSON.stringify({ email, password }),
         });
         const data = await res.json();
-        if (!res.ok) {
-          return;
-        }
+     
+    // 👉 Handle 404 Invalid Credentials
+    if (res.status === 404) {
+      toast.error("Invalid email or password");
+      return; // ❌ stop login
+    }
+
+    if (!res.ok) {
+      toast.error("Invalid crediential. Please try again.");
+      return;
+    }
 
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("user", JSON.stringify(data));
